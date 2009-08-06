@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# g-init
+# Initializes a local git repository based on our SVN repository
+# This is only necessary to run once, all other g-* commands expect this repo
+
+# Edit to suit
+SVN_REPO="svn+ssh://your.repo.url.here.com/foo"
+LOCAL_REPO_NAME="a-clever-name"
+
+git svn clone "${SVN_REPO}" -s "${LOCAL_REPO_NAME}"
+cd "${LOCAL_REPO_NAME}"
+# Create a local .gitignore based on SVN ignore attributes
+git svn show-ignore > .gitignore

@@ -1,0 +1,53 @@
+h1. git-svn-scripts
+
+Bash scripts to help instrument a reasonable workflow with git svn
+
+h3. Inspiration
+
+These scripts are influenced heavily by "Rein Henrichs'":http://reinh.com/#about post entitled "hack && ship":http://reinh.com/blog/2008/08/27/hack-and-and-ship.html. 
+
+h3. Contributors
+
+Many thanks to "Tanner Donovan":http://github.com/ttdonovan/ for pairing with me on these scripts.
+
+h3. Setup
+
+To use these scripts:
+* Edit g-init to point to your SVN repository
+* Ensure these scripts are available in your $PATH
+
+h2. Typical Workflow
+
+* Initialize a git repository, based on your SVN repo
+** $ g-init
+*** This is done only once
+* Make a feature branch:
+** $ g-branch branchname
+*** This updates master from SVN trunk, creates a branch _branchname_ and switches to that branch
+* Go about your business, commit early and commit often
+* Merge-out from SVN trunk via the master git branch, to keep nice and fresh:
+** $ g-update
+* When the time is right, ship that feature branch back to SVN
+** g-ship
+*** This uses g-update to ensure your feature branch is fresh
+*** This squashes commits made in your feature branch, keeping a tidy single commit message per feature branch merge
+*** *This requires that your tests all pass, by default* (See source for overriding option)
+
+h2. Patch-based workflow
+
+Sometimes you may find yourself working with collaborators that do not have commit access to the trunk of your SVN repository.  This simple workflow uses patches to submit and accept changes from git feature branches.
+
+* Follow the workflow outlined above, right up until shipping the feature branch.  g-ship will fail if you do not have write access to SVN trunk.
+* Create a patch to represent the changes made in your feature branch:
+** $ g-create-patch
+*** This uses g-update to ensure a fresh feature branch
+*** _branchname.patch_ is created as output, which can be sent via email or attached to a ticket
+* A developer with commit rights to the SVN repo can then apply the patch:
+** $ g-apply-patch _branchname.patch_
+*** This updates master from SVN and creates a branch matching _branchname_ (the basename of the patch file)
+*** The patch is applied to the feature branch
+*** After you have approved the changes, you can ship them via g-ship
+
+h3. Feedback
+
+I'm very open to feedback on the general workflow presented here, as well as the specific implementation in git.  Fork away!

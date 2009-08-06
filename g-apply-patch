@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# g-apply-patch
+# Apply a patch by way of a new feature branch.
+# You must supply this script with a .patch file as the first argument
+#
+
+if [ -f "$1" ]
+then
+	FEATURE_NAME=`basename -s .patch $1`
+	g-branch "${FEATURE_NAME}"
+	git am < "$1"
+	if [ $? eq 0 ]
+		then
+		rm "$1"
+		echo "The patch file has been applied successfully and removed."
+		echo "Approve the changes, following your normal workflow and then run g-ship."
+	fi
+else
+  echo "You must supply a path to a valid patch file as an argument to this script."
+fi

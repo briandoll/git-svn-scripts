@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# g-create-patch
+# Create a patch from a feature branch
+# Ideally suited for collaborators who do not have commit access to your SVN trunk
+#
+
+CURRENT=`git branch | grep '\*' | awk '{print $2}'`
+CWD=`pwd`
+
+g-update
+if [ $? -eq 0 ]
+	then
+	git format-patch master --stdout > ${CURRENT}.patch
+	echo "Please attach ${CWD}/${CURRENT}.patch to the ticket and assign it to the appropriate developer."
+else
+	echo ""
+	echo "Merging out with g-update has failed, or you do not have g-update available in your PATH."
+fi

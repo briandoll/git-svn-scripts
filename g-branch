@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# g-branch
+# Creates a git branch, aka a feature branch
+# Prior to branching we're rebasing from SVN trunk which requires a clean master
+
+if [ $# -eq 0 ]
+then
+  echo "You must supply a branch name"
+else
+	# Make sure we only ever svn rebase from master
+	git checkout master
+	git svn rebase
+	git checkout -b $1
+fi

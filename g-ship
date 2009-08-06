@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# g-ship
+# Commit your feature branch changes back to the SVN trunk
+#
+# Largely inspired by Rein's "hack && ship" scripts
+# http://reinh.com/blog/2008/08/27/hack-and-and-ship.html
+
+CURRENT=`git branch | grep '\*' | awk '{print $2}'`
+if [ ${CURRENT} == "master" ]
+	then
+	echo "It is expected that this script is called from within your feature branch."
+	echo "Try 'git checkout branchname' first"
+else
+	# merge out from trunk making sure we're up to date
+	g-update
+	if [ $? -eq 0 ]
+		then
+		# Total hack, as I'm too lazy to do real options parsing here
+		# Pass "--force" as an argument to this script to skip the running of your tests! (Shhh...)
+		if [ "$1" != "--force" ]
+			then
+			rake
+		fi
+		# If we ran rake above, don't continue if we have failed tests, otherwise we're just re-checking the staus of g-update
+		if [ $? -eq 0 ]
+			then
+			git checkout master
+			# I prefer to squash commits prior to committing to SVN.  Feel free to omit if you feel otherwise.
+			git merge ${CURRENT} --squash
+			git commit
+			git svn dcommit
+		else
+			echo "Please fix any failing tests before shipping this feature branch.  Note: This script will fail if you are not in the parent directory of the branch."
+		fi
+	else
+		echo "Merging out with g-update has failed, or you do not have g-update available in your PATH."
+	fi
+fi

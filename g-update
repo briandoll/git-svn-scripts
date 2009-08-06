@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# g-update
+# Merge-out from SVN head
+# updates master from SVN head; updates the current feature-branch from master
+#
+# Largely inspired by Rein's "hack && ship" scripts
+# http://reinh.com/blog/2008/08/27/hack-and-and-ship.html
+#
+
+CURRENT=`git branch | grep '\*' | awk '{print $2}'`
+git checkout master
+git svn rebase
+git checkout ${CURRENT}
+git rebase master
