@@ -19,7 +19,7 @@ else
 		# Pass "--force" as an argument to this script to skip the running of your tests! (Shhh...)
 		if [ "$1" != "--force" ]
 			then
-			rake
+			cd ./$(git rev-parse --show-cdup) && rake
 		fi
 		# If we ran rake above, don't continue if we have failed tests, otherwise we're just re-checking the staus of g-update
 		if [ $? -eq 0 ]
