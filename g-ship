@@ -29,6 +29,7 @@ else
 			git merge ${CURRENT} --squash
 			git commit
 			git svn dcommit
+			git branch -m ${CURRENT} DELETE-${CURRENT}
 		else
 			echo "Please fix any failing tests before shipping this feature branch."
 		fi

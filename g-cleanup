@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# g-cleanup
+# Prunes old branches and runs maintenance tasks on the git repository
+
+DEAD_WOOD=`git branch | grep DELETE | tr '\n,*' ' '`
+
+read -p "Continue deleting the following branches? (Y/N) [${DEAD_WOOD}] : " APPROVED
+
+if [ $APPROVED == "Y" ]
+	then
+	for branch in ${DEAD_WOOD}; do
+	  git branch -D ${branch}
+	done
+	echo "Running garbage collection on your git repository..."
+  git gc --auto
+else
+	echo "Cleanup cancelled."
+fi
