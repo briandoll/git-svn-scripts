@@ -4,6 +4,9 @@
 # Ideally suited for collaborators who do not have commit access to your SVN trunk
 #
 
+# exit script on first error
+set -e
+
 CURRENT=`git branch | grep '\*' | awk '{print $2}'`
 CWD=`pwd`
 

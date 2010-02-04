@@ -7,6 +7,9 @@
 # http://reinh.com/blog/2008/08/27/hack-and-and-ship.html
 #
 
+# exit script on first error
+set -e
+
 CURRENT=`git branch | grep '\*' | awk '{print $2}'`
 git checkout master
 git svn rebase

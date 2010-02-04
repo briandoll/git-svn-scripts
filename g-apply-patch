@@ -4,6 +4,9 @@
 # You must supply this script with a .patch file as the first argument
 #
 
+# exit script on first error
+set -e
+
 if [ -f "$1" ]
 then
 	FEATURE_NAME=`basename -s .patch $1`

@@ -3,6 +3,9 @@
 # Creates a git branch, aka a feature branch
 # Prior to branching we're rebasing from SVN trunk which requires a clean master
 
+# exit script on first error
+set -e
+
 if [ $# -eq 0 ]
 then
   echo "You must supply a branch name"

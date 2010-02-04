@@ -5,6 +5,9 @@
 # Largely inspired by Rein's "hack && ship" scripts
 # http://reinh.com/blog/2008/08/27/hack-and-and-ship.html
 
+# exit script on first error
+set -e
+
 CURRENT=`git branch | grep '\*' | awk '{print $2}'`
 if [ ${CURRENT} == "master" ]
 	then

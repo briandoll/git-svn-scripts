@@ -3,6 +3,9 @@
 # Initializes a local git repository based on our SVN repository
 # This is only necessary to run once, all other g-* commands expect this repo
 
+# exit script on first error
+set -e
+
 # Edit to suit
 SVN_REPO="svn+ssh://your.repo.url.here.com/foo"
 LOCAL_REPO_NAME="a-clever-name"

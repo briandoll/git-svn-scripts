@@ -2,6 +2,9 @@
 # g-cleanup
 # Prunes old branches and runs maintenance tasks on the git repository
 
+# exit script on first error
+set -e
+
 DEAD_WOOD=`git branch | grep DELETE | tr '\n,*' ' '`
 
 read -p "Continue deleting the following branches? (Y/N) [${DEAD_WOOD}] : " APPROVED
